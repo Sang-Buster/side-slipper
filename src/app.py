@@ -30,6 +30,7 @@ def main():
     if "playing" not in st.session_state:
         st.session_state.playing = False
 
+    st.markdown("<h1 style='text-align: center;'>🚗 Side Slipper Dashboard 🚗</h1>", unsafe_allow_html=True)
     row1_cols = st.columns((1, 3, 1))
     row2_cols = st.columns((1, 3, 1))
 
@@ -57,10 +58,7 @@ def main():
     with row2_cols[0]:
         display_vehicle_metrics()
 
-    with row2_cols[1]:
-        display_multi_select_and_line_plot()
-
-    with row2_cols[2]:
+    with row2_cols[1]:        
         display_time_control(df, map_container)
 
         # Update the map based on the current time index
@@ -68,6 +66,9 @@ def main():
             with map_container:
                 display_map(df, st.session_state.current_time_index)
 
+        display_multi_select_and_line_plot()
+
+    with row2_cols[2]:
         with st.expander("About", expanded=True, icon=":material/info:"):
             st.write("""
             This dashboard displays vehicle side slip data.
