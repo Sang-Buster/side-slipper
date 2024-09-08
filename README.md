@@ -1,9 +1,12 @@
 <div align="center">
-  <img src="RRADME.assets/banner.png" alt="Vehicle Side Slip Dashboard Banner" width="100%">
   <h1 align="center">Vehicle Side Slip Dashboard</h1>
 </div>
 
 This project is a web application built with Streamlit that visualizes vehicle dynamics, specifically focusing on side slip data. It provides interactive controls and visualizations to help users understand vehicle behavior under various conditions.
+
+<div align="center">
+  <img src="RRADME.assets/banner.png" alt="Vehicle Side Slip Dashboard Banner" width="100%">
+</div>
 
 ## Setup Instructions
 
