@@ -1,0 +1,34 @@
+# base_09_04_24.csv
+1. Index: Integer (Row number)
+2. GPS time: String (GPS Time in HHMM:SS.sss format)
+3. CoG: Float (Course over Ground in degrees)
+4. Lat: Float (Latitude in decimal degrees)
+5. Lon: Float (Longitude in decimal degrees)
+6. VX: Float (Velocity in X direction in m/s)
+7. VY: Float (Velocity in Y direction in m/s)
+8. VZ: Float (Velocity in Z direction in m/s)
+
+Data Snippet:
+GPS time,CoG,Lat,Lon,VX,VY,VZ
+2024-09-04 18:33:26.084000-04:00,262.06,29.18853467,-81.04548,0.0,-0.0,-0.0
+2024-09-04 18:33:26.227000-04:00,262.06,29.18853467,-81.04548,0.0,0.01,-0.0
+2024-09-04 18:33:26.370000-04:00,262.06,29.18853467,-81.04548,-0.0,0.0,-0.0
+
+================================================================================
+
+# rover_09_04_24.csv
+1. Index: Integer (Row number)
+2. GPS time: String (GPS Time in HHMM:SS.sss format)
+3. CoG: Float (Course over Ground in degrees)
+4. Lat: Float (Latitude in decimal degrees)
+5. Lon: Float (Longitude in decimal degrees)
+6. VX: Float (Velocity in X direction in m/s)
+7. VY: Float (Velocity in Y direction in m/s)
+8. VZ: Float (Velocity in Z direction in m/s)
+9. relPosHeading: Float (Relative Position Heading in degrees)
+
+Data Snippet:
+GPS time,CoG,Lat,Lon,VX,VY,VZ,relPosHeading
+2024-09-04 18:33:50.966000-04:00,199.25,0.0,0.0,0.0,0.0,0.0,307.59504
+2024-09-04 18:33:51.109000-04:00,199.25,0.0,0.0,0.0,0.0,0.01,307.56168
+2024-09-04 18:33:51.252000-04:00,199.25,0.0,0.0,0.0,0.0,0.01,307.56472
