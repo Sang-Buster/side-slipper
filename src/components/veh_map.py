@@ -2,63 +2,71 @@ import streamlit as st
 import folium
 from streamlit_folium import folium_static
 
+
 def create_base_map(initial_lat, initial_lon, style="Default"):
     m = folium.Map(
         location=[initial_lat, initial_lon],
         tiles=None,
     )
-    
+
     if style == "Default":
         folium.TileLayer(
-            tiles='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            attr='© OpenStreetMap contributors',
-            name='OpenStreetMap',
+            tiles="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+            attr="© OpenStreetMap contributors",
+            name="OpenStreetMap",
             max_zoom=19,
             overlay=False,
-            control=True
+            control=True,
         ).add_to(m)
     elif style == "Streets":
         folium.TileLayer(
-            tiles='https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',
-            attr='Google',
-            name='Google Maps',
+            tiles="https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}",
+            attr="Google",
+            name="Google Maps",
             max_zoom=20,
             overlay=False,
-            control=True
+            control=True,
         ).add_to(m)
     elif style == "Satellite":
         folium.TileLayer(
-            tiles='https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',
-            attr='Google',
-            name='Google Satellite',
+            tiles="https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
+            attr="Google",
+            name="Google Satellite",
             max_zoom=20,
             overlay=False,
-            control=True
+            control=True,
         ).add_to(m)
     elif style == "Terrain":
         folium.TileLayer(
-            tiles='https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
-            attr='Map data: © OpenStreetMap contributors, SRTM | Map style: © OpenTopoMap (CC-BY-SA)',
-            name='OpenTopoMap',
+            tiles="https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
+            attr="Map data: © OpenStreetMap contributors, SRTM | Map style: © OpenTopoMap (CC-BY-SA)",
+            name="OpenTopoMap",
             max_zoom=15,
             overlay=False,
-            control=True
+            control=True,
         ).add_to(m)
     elif style == "Dark":
         folium.TileLayer(
-            tiles='https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
-            attr='© OpenStreetMap contributors © CARTO',
-            name='CARTO Dark',
+            tiles="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+            attr="© OpenStreetMap contributors © CARTO",
+            name="CARTO Dark",
             max_zoom=16,
             overlay=False,
-            control=True
+            control=True,
         ).add_to(m)
     else:
         raise ValueError("Invalid map style")
 
     return m
 
-def display_map(df, current_time_index, initial_lat=29.18853467, initial_lon=-81.04548, map_style="Default"):
+
+def display_map(
+    df,
+    current_time_index,
+    initial_lat=29.18853467,
+    initial_lon=-81.04548,
+    map_style="Default",
+):
     if "Lat_base" not in df.columns or "Lon_base" not in df.columns:
         st.error(
             "Could not find latitude and longitude columns after cleaning. Please check your CSV file."
@@ -80,7 +88,9 @@ def display_map(df, current_time_index, initial_lat=29.18853467, initial_lon=-81
     ).add_to(m)
 
     # Plot the traveled path up to the current time index
-    traveled_path = df[["Lat_base", "Lon_base"]].iloc[:current_time_index + 1].values.tolist()
+    traveled_path = (
+        df[["Lat_base", "Lon_base"]].iloc[: current_time_index + 1].values.tolist()
+    )
     if len(traveled_path) > 1:
         folium.PolyLine(
             traveled_path,

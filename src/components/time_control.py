@@ -3,19 +3,23 @@ import pandas as pd
 from datetime import datetime, timedelta
 from components.veh_map import display_map
 
+
 @st.cache_data
 def load_data():
     df = pd.read_csv("./data/merged_cleaned.csv")
     return df
+
 
 def format_time(time_int):
     time_str = str(time_int)
     dt = datetime.strptime(time_str, "%Y%m%d%H%M%S")
     return dt.strftime("%H:%M:%S")
 
+
 @st.cache_data
 def get_formatted_times(time_range):
     return [format_time(t) for t in time_range]
+
 
 def display_time_control(df, map_container, map_style):
     time_range = df["GPS time"].tolist()
@@ -47,7 +51,10 @@ def display_time_control(df, map_container, map_style):
         current_time = datetime.strptime(current_time_str, "%Y%m%d%H%M%S")
         target_time = current_time + timedelta(seconds=seconds)
         target_time_int = int(target_time.strftime("%Y%m%d%H%M%S"))
-        new_index = min(max(0, df[df["GPS time"] >= target_time_int].index.min()), len(time_range) - 1)
+        new_index = min(
+            max(0, df[df["GPS time"] >= target_time_int].index.min()),
+            len(time_range) - 1,
+        )
         if pd.isna(new_index):
             new_index = len(time_range) - 1 if seconds > 0 else 0
         return int(new_index)

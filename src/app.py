@@ -13,10 +13,12 @@ st.set_page_config(
     layout="wide",
 )
 
+
 @st.cache_data
 def load_data(file_path):
     df = pd.read_csv(file_path)
     return df
+
 
 def main():
     df = load_data("./data/merged_cleaned.csv")
@@ -62,9 +64,11 @@ def main():
         st.selectbox(
             "Select Map Style",
             options=["Default", "Streets", "Satellite", "Terrain", "Dark"],
-            index=["Default", "Streets", "Satellite", "Terrain", "Dark"].index(st.session_state.map_style),
+            index=["Default", "Streets", "Satellite", "Terrain", "Dark"].index(
+                st.session_state.map_style
+            ),
             key="map_style_selector",
-            on_change=update_map_style
+            on_change=update_map_style,
         )
 
         # Create an empty container for the map
@@ -73,11 +77,15 @@ def main():
         # Update the map based on the current time index and selected style
         if "current_time_index" in st.session_state:
             with map_container:
-                display_map(df, st.session_state.current_time_index, map_style=st.session_state.map_style)
+                display_map(
+                    df,
+                    st.session_state.current_time_index,
+                    map_style=st.session_state.map_style,
+                )
 
     with row2_cols[0]:
         display_vehicle_metrics(df, st.session_state.current_time_index)
-        
+
         with st.expander("About", expanded=True, icon=":material/info:"):
             st.write("""
             This dashboard provides an interactive visualization of vehicle side slip data.
@@ -98,6 +106,7 @@ def main():
     # Force a rerun if the current_time_index has changed
     if st.session_state.current_time_index != st.session_state.time_slider:
         st.rerun()
+
 
 if __name__ == "__main__":
     main()

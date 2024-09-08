@@ -11,7 +11,14 @@ def display_vehicle_data(df, current_time_index):
     current_data = df.iloc[current_time_index]
 
     # Calculate speed in mph
-    speed = ((current_data['VX_base']**2 + current_data['VY_base']**2 + current_data['VZ_base']**2)**0.5) * 2.23694
+    speed = (
+        (
+            current_data["VX_base"] ** 2
+            + current_data["VY_base"] ** 2
+            + current_data["VZ_base"] ** 2
+        )
+        ** 0.5
+    ) * 2.23694
     max_speed = 140
 
     # Speedometer

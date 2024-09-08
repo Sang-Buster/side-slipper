@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import altair as alt
 
+
 def make_donut(input_response, input_text, input_color):
     if input_color == "blue":
         chart_color = ["#29b5e8", "#155F7A"]
@@ -54,23 +55,30 @@ def make_donut(input_response, input_text, input_color):
     )
     return plot_bg + plot + text
 
+
 def display_vehicle_metrics(df, current_time_index):
     metrics_col = st.columns(2)
 
     current_data = df.iloc[current_time_index]
-    previous_data = df.iloc[max(0, current_time_index - 1)]  # Ensure we don't go below 0
+    previous_data = df.iloc[
+        max(0, current_time_index - 1)
+    ]  # Ensure we don't go below 0
 
-    cog_base = current_data['CoG_base']
-    cog_rover = current_data['CoG_rover']
-    beta = current_data['beta']
-    rel_pos_heading = current_data['relPosHeading']
+    cog_base = current_data["CoG_base"]
+    cog_rover = current_data["CoG_rover"]
+    beta = current_data["beta"]
+    rel_pos_heading = current_data["relPosHeading"]
 
     # Calculate deltas
-    delta_rel_pos_heading = rel_pos_heading - previous_data['relPosHeading']
-    delta_beta = beta - previous_data['beta']
+    delta_rel_pos_heading = rel_pos_heading - previous_data["relPosHeading"]
+    delta_beta = beta - previous_data["beta"]
 
     with metrics_col[0]:
-        st.metric("Relative Position Heading (°)", f"{rel_pos_heading:.2f}", f"{delta_rel_pos_heading:.2f}")
+        st.metric(
+            "Relative Position Heading (°)",
+            f"{rel_pos_heading:.2f}",
+            f"{delta_rel_pos_heading:.2f}",
+        )
         st.altair_chart(make_donut(cog_rover, "Rover CoG (°)", "red"))
 
     with metrics_col[1]:
