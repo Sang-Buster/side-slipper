@@ -16,20 +16,33 @@ Follow these steps to set up the project environment:
    conda activate tmp
    ```
 
-3. **Install the required packages:**
+3. **Install `uv` first:**
    ```bash
-   pip install -r requirements.txt
+   pip install uv
    ```
 
-4. **Navigate to the source directory:**
+4. **Install the required packages:**
+   ```bash
+   uv pip install -r requirements.txt
+   ```
+
+5. **Navigate to the source directory:**
    ```bash
    cd src/
    ```
 
-5. **Run the Streamlit application:**
+6. **Run the Streamlit application:**
    ```bash
    streamlit run app.py
    ```
+
+## Development Instructions (Code Linting)
+
+   ```bash
+   ruff check
+   ruff format
+   ```
+
 
 ## Notes
 - Ensure you have `conda` and `pip` installed on your system.

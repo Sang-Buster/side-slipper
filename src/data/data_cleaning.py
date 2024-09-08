@@ -29,9 +29,9 @@ def clean_and_convert_gps_time(input_file, output_file, encoding="utf-8"):
                 logging.error(f"Error converting GPS time '{gps_time}': {e}")
 
     df["GPS time"] = df["GPS time"].astype(str).apply(gps_time_to_est)
-    
+
     # Convert GPS time to YMDHHMMSS format
-    df["GPS time"] = df["GPS time"].dt.strftime('%Y%m%d%H%M%S')
+    df["GPS time"] = df["GPS time"].dt.strftime("%Y%m%d%H%M%S")
 
     # Step 3: Save the cleaned DataFrame to a file
     df.to_csv(output_file, index=False)
@@ -59,6 +59,7 @@ def full_join_and_mutate(file1, file2, output_file):
 
     # Save the result to a new CSV file
     merged_df.to_csv(output_file, index=False)
+
 
 # Call the function with the appropriate file paths
 full_join_and_mutate(

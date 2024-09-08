@@ -14,18 +14,20 @@ st.set_page_config(
     layout="wide",
 )
 
+
 @st.cache_data
 def load_data(file_path):
     df = pd.read_csv(file_path)
     return df
 
+
 def main():
     df = load_data("./data/merged_cleaned.csv")
 
     # Initialize session state for current time index and playing state
-    if 'current_time_index' not in st.session_state:
+    if "current_time_index" not in st.session_state:
         st.session_state.current_time_index = 0
-    if 'playing' not in st.session_state:
+    if "playing" not in st.session_state:
         st.session_state.playing = False
 
     row1_cols = st.columns((1, 3, 1))
@@ -62,7 +64,7 @@ def main():
         display_time_control(df, map_container)
 
         # Update the map based on the current time index
-        if 'current_time_index' in st.session_state:
+        if "current_time_index" in st.session_state:
             with map_container:
                 display_map(df, st.session_state.current_time_index)
 
@@ -77,6 +79,7 @@ def main():
             **Contributors:** 
             - Sang Xing
             """)
+
 
 if __name__ == "__main__":
     main()
