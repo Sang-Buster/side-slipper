@@ -55,7 +55,7 @@ def full_join_and_mutate(file1, file2, output_file):
     merged_df.fillna(0, inplace=True)
 
     # Create the beta column using relPosHeading from rover and CoG from base
-    merged_df["beta"] = merged_df["relPosHeading"] - merged_df["CoG_base"]
+    merged_df["beta"] = merged_df["relPosHeading"] - merged_df["CoG_rover"]
 
     # Save the result to a new CSV file
     merged_df.to_csv(output_file, index=False)
