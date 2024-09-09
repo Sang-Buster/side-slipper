@@ -38,9 +38,7 @@ def display_time_control(df, map_container, map_style):
         len(time_range) - 1,
         st.session_state.current_time_index,
         key="time_slider",
-        on_change=lambda: st.session_state.update(
-            {"current_time_index": st.session_state.time_slider}
-        ),
+        on_change=update_time_index,
         format="",
         label_visibility="collapsed",
     )
@@ -80,8 +78,12 @@ def display_time_control(df, map_container, map_style):
             st.session_state.current_time_index = adjust_time(10)
 
     with map_container:
-        display_map(df, st.session_state.current_time_index, map_style=map_style)
+        display_map(df, st.session_state.time_slider, map_style=map_style)
 
     # Force a rerun if the current_time_index has changed
     if st.session_state.current_time_index != st.session_state.time_slider:
         st.rerun()
+
+
+def update_time_index():
+    st.session_state.current_time_index = st.session_state.time_slider

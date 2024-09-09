@@ -7,4 +7,3 @@ matplotlib
 ruff
 folium
 streamlit-folium
-geopy

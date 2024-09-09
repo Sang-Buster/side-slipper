@@ -23,21 +23,23 @@ def create_initial_plot(df, selected_columns, plot_data):
     fig.update_layout(
         xaxis_title="Time",
         yaxis_title="Value",
-        legend_title="Data",
-        height=400,
-        margin=dict(l=0, r=0, t=0, b=0),
-    )
-
-    fig.update_xaxes(
-        tickformat="%H:%M:%S",
-        dtick=60000,  # Show tick every 60 seconds
-        tickangle=45,
+        margin=dict(l=0, r=0, t=0, b=100),
+        height=500,
+        legend=dict(
+            orientation="h",
+            yanchor="bottom",
+            y=-0.3,
+            xanchor="center",
+            x=0.5
+        ),
     )
 
     return fig
 
 
-def update_plot(fig, df, selected_columns, plot_data, current_time_index):
+def update_plot(
+    fig, df, selected_columns, plot_data, current_time_index, time_range_seconds
+):
     current_time = df["datetime"].iloc[current_time_index]
 
     for i, column in enumerate(selected_columns):
@@ -49,11 +51,33 @@ def update_plot(fig, df, selected_columns, plot_data, current_time_index):
         x=current_time, line_dash="dash", line_color="red", name="Current Time"
     )
 
-    # Update x-axis range to show a fixed time window (e.g., last 5 minutes)
-    time_window = pd.Timedelta(minutes=5)
-    x_min = max(df["datetime"].iloc[0], current_time - time_window)
+    # Update x-axis range based on selected time range
+    if time_range_seconds is not None:
+        x_min = max(
+            df["datetime"].iloc[0],
+            current_time - pd.Timedelta(seconds=time_range_seconds),
+        )
+    else:
+        x_min = df["datetime"].iloc[0]
     x_max = current_time + pd.Timedelta(seconds=10)  # Add a small buffer
-    fig.update_xaxes(range=[x_min, x_max])
+
+    # Adjust x-axis format and tick frequency based on the time range
+    if time_range_seconds is None or time_range_seconds > 300:
+        dtick = 3600000  # 1 hour in milliseconds
+        tickformat = "%H:%M"
+    elif time_range_seconds > 60:
+        dtick = 60000  # 1 minute in milliseconds
+        tickformat = "%H:%M:%S"
+    else:
+        dtick = 10000  # 10 seconds in milliseconds
+        tickformat = "%H:%M:%S"
+
+    fig.update_xaxes(
+        range=[x_min, x_max],
+        tickformat=tickformat,
+        dtick=dtick,
+        tickangle=45,
+    )
 
     return fig
 
@@ -82,6 +106,35 @@ def display_multi_select_and_line_plot(df, current_time_index):
         default=["CoG_base", "CoG_rover"],
     )
 
+    # Add time range selector
+    time_range_options = {
+        "Last 30 seconds": 30,
+        "Last 1 minute": 60,
+        "Last 3 minutes": 180,
+        "Last 5 minutes": 300,
+        "All": None,
+    }
+
+    def update_time_range():
+        st.session_state.selected_time_range_seconds = time_range_options[
+            st.session_state.selected_time_range
+        ]
+        if "seg_plot_fig" in st.session_state:
+            del st.session_state.seg_plot_fig
+
+    selected_time_range = st.selectbox(
+        "Select time range to display:",
+        options=list(time_range_options.keys()),
+        index=0,  # Default to "30 seconds"
+        key="selected_time_range",
+        on_change=update_time_range,
+    )
+
+    # Store the selected time range in session state
+    st.session_state.selected_time_range_seconds = time_range_options[
+        selected_time_range
+    ]
+
     if selected_columns:
         df["datetime"] = pd.to_datetime(df["GPS time"], format="%Y%m%d%H%M%S")
         plot_data = prepare_plot_data(df, selected_columns)
@@ -90,11 +143,13 @@ def display_multi_select_and_line_plot(df, current_time_index):
         if (
             "line_plot_fig" not in st.session_state
             or st.session_state.line_plot_selected_columns != selected_columns
+            or st.session_state.line_plot_time_range != selected_time_range
         ):
             st.session_state.line_plot_fig = create_initial_plot(
                 df, selected_columns, plot_data
             )
             st.session_state.line_plot_selected_columns = selected_columns
+            st.session_state.line_plot_time_range = selected_time_range
 
         # Update the plot with current data
         fig = update_plot(
@@ -103,6 +158,7 @@ def display_multi_select_and_line_plot(df, current_time_index):
             selected_columns,
             plot_data,
             current_time_index,
+            time_range_options[selected_time_range],
         )
 
         # Display the plot

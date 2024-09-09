@@ -114,10 +114,6 @@ def main():
         display_time_control(df, map_container, st.session_state.map_style)
         display_multi_select_and_line_plot(df, st.session_state.current_time_index)
 
-    # Force a rerun if the current_time_index has changed
-    if st.session_state.current_time_index != st.session_state.time_slider:
-        st.rerun()
-
 
 if __name__ == "__main__":
     main()
