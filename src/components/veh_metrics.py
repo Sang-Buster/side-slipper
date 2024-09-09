@@ -74,13 +74,13 @@ def display_vehicle_metrics(df, current_time_index):
     delta_beta = beta - previous_data["beta"]
 
     with metrics_col[0]:
+        st.altair_chart(make_donut(cog_rover, "Rover CoG (°)", "red"))
         st.metric(
             "Relative Position Heading (°)",
             f"{rel_pos_heading:.2f}",
             f"{delta_rel_pos_heading:.2f}",
         )
-        st.altair_chart(make_donut(cog_rover, "Rover CoG (°)", "red"))
 
     with metrics_col[1]:
-        st.metric("Side Slip Angle (β°)", f"{beta:.2f}", f"{delta_beta:.2f}")
         st.altair_chart(make_donut(cog_base, "Base CoG (°)", "orange"))
+        st.metric("Side Slip Angle (β°)", f"{beta:.2f}", f"{delta_beta:.2f}")

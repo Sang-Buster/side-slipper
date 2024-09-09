@@ -5,12 +5,31 @@ from components.veh_data import display_vehicle_data
 from components.veh_metrics import display_vehicle_metrics
 from components.line_plot import display_multi_select_and_line_plot
 from components.time_control import display_time_control
+from components.seg_plot import display_seg_plot
+
+# App information
+about_info = """
+This dashboard provides an interactive visualization of vehicle side slip data.
+
+**Author:** 
+- Andrew Hannah
+- Levi Blumer 
+- Marc Compere
+
+**Contributors:** 
+- Sang Xing
+"""
+
 
 # Page configuration
 st.set_page_config(
     page_title="Vehicle Side Slip Dashboard",
     page_icon="🚗",
     layout="wide",
+    menu_items={
+        "Report a bug": "https://github.com/Sang-Buster/side-slipper/issues/new",
+        "About": about_info,
+    },
 )
 
 
@@ -41,6 +60,10 @@ def main():
     row2_cols = st.columns([1, 3], vertical_alignment="center")
 
     with row1_cols[0]:
+        st.markdown(
+            "<h3 style='text-align: center;'>Vehicle Data</h3>", unsafe_allow_html=True
+        )
+
         display_vehicle_data(df, st.session_state.current_time_index)
 
     with row1_cols[1]:
@@ -85,19 +108,7 @@ def main():
 
     with row2_cols[0]:
         display_vehicle_metrics(df, st.session_state.current_time_index)
-
-        with st.expander("About", expanded=True, icon=":material/info:"):
-            st.write("""
-            This dashboard provides an interactive visualization of vehicle side slip data.
-            
-            **Author:** 
-            - Andrew Hannah
-            - Levi Blumer 
-            - Marc Compere
-            
-            **Contributors:** 
-            - Sang Xing
-            """)
+        display_seg_plot(df, st.session_state.current_time_index)
 
     with row2_cols[1]:
         display_time_control(df, map_container, st.session_state.map_style)

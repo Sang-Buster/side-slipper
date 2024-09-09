@@ -59,11 +59,6 @@ def update_plot(fig, df, selected_columns, plot_data, current_time_index):
 
 
 def display_multi_select_and_line_plot(df, current_time_index):
-    st.markdown(
-        "<h3 style='text-align: center;'>Data Visualization</h3>",
-        unsafe_allow_html=True,
-    )
-
     plottable_columns = [
         "CoG_base",
         "Lat_base",

@@ -3,10 +3,6 @@ import plotly.graph_objects as go
 
 
 def display_vehicle_data(df, current_time_index):
-    st.markdown(
-        "<h3 style='text-align: center;'>Vehicle Data</h3>", unsafe_allow_html=True
-    )
-
     # Get current data
     current_data = df.iloc[current_time_index]
 
@@ -41,10 +37,10 @@ def display_vehicle_data(df, current_time_index):
                 "borderwidth": 2,
                 "bordercolor": "gray",
                 "steps": [
-                    {"range": [0, 40], "color": "lightblue"},
-                    {"range": [40, 80], "color": "cyan"},
-                    {"range": [80, 120], "color": "lime"},
-                    {"range": [120, max_speed], "color": "yellow"},
+                    {"range": [0, 40], "color": "#61afef"},
+                    {"range": [40, 80], "color": "#98c379"},
+                    {"range": [80, 120], "color": "#e5c07b"},
+                    {"range": [120, max_speed], "color": "#e06c75"},
                 ],
                 "threshold": {
                     "line": {"color": "black", "width": 4},
