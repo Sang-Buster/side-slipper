@@ -25,13 +25,7 @@ def create_initial_plot(df, selected_columns, plot_data):
         yaxis_title="Value",
         margin=dict(l=0, r=0, t=0, b=100),
         height=500,
-        legend=dict(
-            orientation="h",
-            yanchor="bottom",
-            y=-0.3,
-            xanchor="center",
-            x=0.5
-        ),
+        legend=dict(orientation="h", yanchor="bottom", y=-0.3, xanchor="center", x=0.5),
     )
 
     return fig

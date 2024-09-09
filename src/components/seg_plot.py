@@ -137,23 +137,14 @@ def create_seg_plot(df, current_time_index, time_range_seconds):
         },
         xaxis_title="Longitude",
         yaxis=dict(
-            title=dict(
-                text="Latitude",
-                standoff=10
-            ),
+            title=dict(text="Latitude", standoff=10),
             side="right",
             title_standoff=5,
             automargin=True,
-        ),        
+        ),
         height=520,
         margin=dict(l=0, r=0, t=20, b=140),
-        legend=dict(
-            orientation="h",
-            yanchor="bottom",
-            y=-0.3,
-            xanchor="center",
-            x=0.5
-        ),
+        legend=dict(orientation="h", yanchor="bottom", y=-0.3, xanchor="center", x=0.5),
     )
 
     # Set axis ranges to focus on the selected time range of data
