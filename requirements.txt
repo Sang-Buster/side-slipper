@@ -1,9 +1,8 @@
+ruff
 streamlit
 pandas
-altair
-plotly
 numpy
 matplotlib
-ruff
+plotly
+altair
 folium
-streamlit-folium

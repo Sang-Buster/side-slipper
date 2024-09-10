@@ -42,8 +42,9 @@ Follow these steps to set up the project environment:
    streamlit run app.py
    ```
 
-## Development Instructions (Code Linting)
+## Development Instructions
 
+1. **Code Linting and Formatting:**
    ```bash
    ruff check
    ruff format
@@ -51,5 +52,4 @@ Follow these steps to set up the project environment:
 
 
 ## Notes
-- Ensure you have `conda` and `pip` installed on your system.
-- Adjust the Python version in step 1 if necessary.
+- Ensure you have `conda` installed (if not, you can install it via [miniforge](https://github.com/conda-forge/miniforge)).
