@@ -33,6 +33,7 @@ st.set_page_config(
 )
 
 
+# Load and cache vehicle driving dataset
 @st.cache_data
 def load_data(file_path):
     df = pd.read_csv(file_path)
@@ -56,8 +57,8 @@ def main():
     )
 
     # Create a 2x2 grid
-    row1_cols = st.columns([1, 3], vertical_alignment="center")
-    row2_cols = st.columns([1, 3], vertical_alignment="center")
+    row1_cols = st.columns([1, 3])
+    row2_cols = st.columns([1, 3])
 
     with row1_cols[0]:
         st.markdown(

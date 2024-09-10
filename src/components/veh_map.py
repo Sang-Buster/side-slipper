@@ -1,7 +1,7 @@
 import streamlit as st
 import folium
 from streamlit_folium import folium_static
-
+from folium.plugins import Draw
 
 def create_base_map(initial_lat, initial_lon, style="Default"):
     m = folium.Map(
@@ -79,6 +79,9 @@ def display_map(
 
     # Create a new map instance with the specified style
     m = create_base_map(initial_lat, initial_lon, style=map_style)
+    
+    # Add drawing tools to the map
+    Draw().add_to(m)
 
     # Add a marker for the base start point (first entry)
     folium.Marker(
