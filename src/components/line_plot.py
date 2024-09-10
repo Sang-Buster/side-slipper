@@ -5,7 +5,7 @@ from plotly.subplots import make_subplots
 
 
 @st.cache_data
-def prepare_plot_data(df, selected_columns):
+def prepare_line_plot_data(df, selected_columns):
     return {col: df[col] for col in selected_columns}
 
 
@@ -131,7 +131,7 @@ def display_multi_select_and_line_plot(df, current_time_index):
 
     if selected_columns:
         df["datetime"] = pd.to_datetime(df["GPS time"], format="%Y%m%d%H%M%S")
-        plot_data = prepare_plot_data(df, selected_columns)
+        plot_data = prepare_line_plot_data(df, selected_columns)
 
         # Use session state to store the figure
         if (

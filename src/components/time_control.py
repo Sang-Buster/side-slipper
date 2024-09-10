@@ -4,12 +4,6 @@ from datetime import datetime, timedelta
 from components.veh_map import display_map
 
 
-@st.cache_data
-def load_data():
-    df = pd.read_csv("./data/merged_cleaned.csv")
-    return df
-
-
 def format_time(time_int):
     time_str = str(time_int)
     dt = datetime.strptime(time_str, "%Y%m%d%H%M%S")
