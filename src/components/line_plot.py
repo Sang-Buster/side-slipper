@@ -9,13 +9,29 @@ def prepare_line_plot_data(df, selected_columns):
     return {col: df[col] for col in selected_columns}
 
 
-def create_initial_plot(df, selected_columns, plot_data):
+def create_initial_plot(df, selected_columns, time_range_seconds):
     fig = make_subplots(specs=[[{"secondary_y": True}]])
+
+    current_time = df["datetime"].iloc[-1]
+    start_time = (
+        current_time - pd.Timedelta(seconds=time_range_seconds)
+        if time_range_seconds
+        else df["datetime"].iloc[0]
+    )
+    selected_data = df[
+        (df["datetime"] >= start_time) & (df["datetime"] <= current_time)
+    ]
+
+    # Group data by second and calculate mean values
+    grouped_data = selected_data.groupby(selected_data["datetime"].dt.floor("s")).mean()
 
     for column in selected_columns:
         fig.add_trace(
             go.Scatter(
-                x=df["datetime"], y=plot_data[column], mode="lines", name=column
+                x=grouped_data.index,
+                y=grouped_data[column],
+                mode="lines",
+                name=column
             ),
             secondary_y=False,
         )
@@ -32,27 +48,32 @@ def create_initial_plot(df, selected_columns, plot_data):
 
 
 def update_plot(
-    fig, df, selected_columns, plot_data, current_time_index, time_range_seconds
+    fig, df, selected_columns, current_time_index, time_range_seconds
 ):
     current_time = df["datetime"].iloc[current_time_index]
+    start_time = (
+        current_time - pd.Timedelta(seconds=time_range_seconds)
+        if time_range_seconds
+        else df["datetime"].iloc[0]
+    )
+    selected_data = df[
+        (df["datetime"] >= start_time) & (df["datetime"] <= current_time)
+    ]
+
+    # Group data by second and calculate mean values
+    grouped_data = selected_data.groupby(selected_data["datetime"].dt.floor("s")).mean()
 
     for i, column in enumerate(selected_columns):
-        fig.data[i].x = df["datetime"][: current_time_index + 1]
-        fig.data[i].y = plot_data[column][: current_time_index + 1]
+        fig.data[i].x = grouped_data.index
+        fig.data[i].y = grouped_data[column]
 
     fig.layout.shapes = []  # Clear existing shapes
     fig.add_vline(
         x=current_time, line_dash="dash", line_color="red", name="Current Time"
     )
 
-    # Update x-axis range based on selected time range
-    if time_range_seconds is not None:
-        x_min = max(
-            df["datetime"].iloc[0],
-            current_time - pd.Timedelta(seconds=time_range_seconds),
-        )
-    else:
-        x_min = df["datetime"].iloc[0]
+    # Update x-axis range
+    x_min = grouped_data.index[0]
     x_max = current_time + pd.Timedelta(seconds=10)  # Add a small buffer
 
     # Adjust x-axis format and tick frequency based on the time range
@@ -113,8 +134,8 @@ def display_multi_select_and_line_plot(df, current_time_index):
         st.session_state.selected_time_range_seconds = time_range_options[
             st.session_state.selected_time_range
         ]
-        if "seg_plot_fig" in st.session_state:
-            del st.session_state.seg_plot_fig
+        if "line_plot_fig" in st.session_state:
+            del st.session_state.line_plot_fig
 
     selected_time_range = st.selectbox(
         "Select time range to display:",
@@ -131,7 +152,6 @@ def display_multi_select_and_line_plot(df, current_time_index):
 
     if selected_columns:
         df["datetime"] = pd.to_datetime(df["GPS time"], format="%Y%m%d%H%M%S")
-        plot_data = prepare_line_plot_data(df, selected_columns)
 
         # Use session state to store the figure
         if (
@@ -140,7 +160,7 @@ def display_multi_select_and_line_plot(df, current_time_index):
             or st.session_state.line_plot_time_range != selected_time_range
         ):
             st.session_state.line_plot_fig = create_initial_plot(
-                df, selected_columns, plot_data
+                df, selected_columns, time_range_options[selected_time_range]
             )
             st.session_state.line_plot_selected_columns = selected_columns
             st.session_state.line_plot_time_range = selected_time_range
@@ -150,7 +170,6 @@ def display_multi_select_and_line_plot(df, current_time_index):
             st.session_state.line_plot_fig,
             df,
             selected_columns,
-            plot_data,
             current_time_index,
             time_range_options[selected_time_range],
         )
