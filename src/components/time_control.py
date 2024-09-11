@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 from datetime import datetime, timedelta
-from components.veh_map import display_map
 
 
 def format_time(time_int):
@@ -15,7 +14,7 @@ def get_formatted_times(time_range):
     return [format_time(t) for t in time_range]
 
 
-def display_time_control(df, map_container, map_style):
+def display_time_control(df):
     time_range = df["GPS time"].tolist()
     formatted_times = get_formatted_times(time_range)
     end_time = formatted_times[-1]
@@ -70,9 +69,6 @@ def display_time_control(df, map_container, map_style):
     with col6:
         if st.button("+10s", use_container_width=True):
             st.session_state.current_time_index = adjust_time(10)
-
-    with map_container:
-        display_map(df, st.session_state.time_slider, map_style=map_style)
 
     # Force a rerun if the current_time_index has changed
     if st.session_state.current_time_index != st.session_state.time_slider:
