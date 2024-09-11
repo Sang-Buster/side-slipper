@@ -117,17 +117,16 @@ def main():
         # Create an empty container for the map
         map_container = st.empty()
 
-        # Update the map based on the current time index and selected style
-        if "current_time_index" in st.session_state:
-            display_time_control(df, map_container, st.session_state.map_style)
-
     # Bottom-left section: Vehicle Metrics and Segment Plot
     with row2_cols[0]:
         display_vehicle_metrics(df, st.session_state.current_time_index)
         display_seg_plot(df, st.session_state.current_time_index)
 
-    # Bottom-right section: Multi-select and Line Plot
-    with row2_cols[1]:
+    # Bottom-right section: Time Control, Multi-select and Line Plot
+    with row2_cols[1]:        
+        if "current_time_index" in st.session_state:
+            display_time_control(df, map_container, st.session_state.map_style)
+
         display_multi_select_and_line_plot(df, st.session_state.current_time_index)
 
 
