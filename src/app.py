@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-from components.veh_map import display_map
 from components.veh_data import display_vehicle_data
 from components.veh_metrics import display_vehicle_metrics
 from components.line_plot import display_multi_select_and_line_plot
@@ -100,19 +99,13 @@ def main():
 
         # Update the map based on the current time index and selected style
         if "current_time_index" in st.session_state:
-            with map_container:
-                display_map(
-                    df,
-                    st.session_state.current_time_index,
-                    map_style=st.session_state.map_style,
-                )
+            display_time_control(df, map_container, st.session_state.map_style)
 
     with row2_cols[0]:
         display_vehicle_metrics(df, st.session_state.current_time_index)
         display_seg_plot(df, st.session_state.current_time_index)
 
     with row2_cols[1]:
-        display_time_control(df, map_container, st.session_state.map_style)
         display_multi_select_and_line_plot(df, st.session_state.current_time_index)
 
 

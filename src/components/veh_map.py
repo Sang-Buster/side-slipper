@@ -1,7 +1,8 @@
 import streamlit as st
 import folium
-from streamlit_folium import folium_static
 from folium.plugins import Draw
+from streamlit_folium import folium_static
+
 
 def create_base_map(initial_lat, initial_lon, style="Default"):
     m = folium.Map(
@@ -71,15 +72,15 @@ def display_map(
         st.error(
             "Could not find latitude and longitude columns after cleaning. Please check your CSV file."
         )
-        return
+        return None
 
     if df.empty:
         st.error("No valid data available to display on the map.")
-        return
+        return None
 
     # Create a new map instance with the specified style
     m = create_base_map(initial_lat, initial_lon, style=map_style)
-    
+
     # Add drawing tools to the map
     Draw().add_to(m)
 
@@ -128,5 +129,5 @@ def display_map(
     else:
         m.fit_bounds([current_position, current_position])
 
-    # Update the map
-    folium_static(m)
+    # Return the Map object
+    return folium_static(m)

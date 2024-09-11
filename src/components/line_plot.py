@@ -28,10 +28,7 @@ def create_initial_plot(df, selected_columns, time_range_seconds):
     for column in selected_columns:
         fig.add_trace(
             go.Scatter(
-                x=grouped_data.index,
-                y=grouped_data[column],
-                mode="lines",
-                name=column
+                x=grouped_data.index, y=grouped_data[column], mode="lines", name=column
             ),
             secondary_y=False,
         )
@@ -47,9 +44,7 @@ def create_initial_plot(df, selected_columns, time_range_seconds):
     return fig
 
 
-def update_plot(
-    fig, df, selected_columns, current_time_index, time_range_seconds
-):
+def update_plot(fig, df, selected_columns, current_time_index, time_range_seconds):
     current_time = df["datetime"].iloc[current_time_index]
     start_time = (
         current_time - pd.Timedelta(seconds=time_range_seconds)
