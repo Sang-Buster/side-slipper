@@ -40,9 +40,10 @@ def load_data(file_path):
 
 
 def main():
+    # Load the dataset
     df = load_data("./data/merged_cleaned.csv")
 
-    # Initialize session state for current time index, playing state, and map style
+    # Initialize session state variables if they don't exist
     if "current_time_index" not in st.session_state:
         st.session_state.current_time_index = 0
     if "playing" not in st.session_state:
@@ -50,23 +51,26 @@ def main():
     if "map_style" not in st.session_state:
         st.session_state.map_style = "Default"
 
+    # Display the dashboard title
     st.markdown(
         "<h1 style='text-align: center;'>🚗 Side Slipper Dashboard 🚗</h1>",
         unsafe_allow_html=True,
     )
 
-    # Create a 2x2 grid
+    # Create a 2x2 grid layout
     row1_cols = st.columns([1, 3])
     row2_cols = st.columns([1, 3])
 
+    # Top-left section: Vehicle Data
     with row1_cols[0]:
         st.markdown(
             "<h3 style='text-align: center;'>Vehicle Data</h3>", unsafe_allow_html=True
         )
-
         display_vehicle_data(df, st.session_state.current_time_index)
 
+    # Top-right section: Map and Map Style Selector
     with row1_cols[1]:
+        # Set CSS to ensure proper iframe sizing for the map
         st.markdown(
             """
         <style>
@@ -101,10 +105,12 @@ def main():
         if "current_time_index" in st.session_state:
             display_time_control(df, map_container, st.session_state.map_style)
 
+    # Bottom-left section: Vehicle Metrics and Segment Plot
     with row2_cols[0]:
         display_vehicle_metrics(df, st.session_state.current_time_index)
         display_seg_plot(df, st.session_state.current_time_index)
 
+    # Bottom-right section: Multi-select and Line Plot
     with row2_cols[1]:
         display_multi_select_and_line_plot(df, st.session_state.current_time_index)
 
