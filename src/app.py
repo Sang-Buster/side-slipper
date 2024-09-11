@@ -5,6 +5,8 @@ from components.veh_metrics import display_vehicle_metrics
 from components.line_plot import display_multi_select_and_line_plot
 from components.time_control import display_time_control
 from components.seg_plot import display_seg_plot
+import os
+import time
 
 # App information
 about_info = """
@@ -33,15 +35,29 @@ st.set_page_config(
 
 
 # Load and cache vehicle driving dataset
-@st.cache_data
 def load_data(file_path):
+    last_modified = os.path.getmtime(file_path)
     df = pd.read_csv(file_path)
-    return df
+    return df, last_modified
+
+
+def check_file_update(file_path, last_modified):
+    return os.path.getmtime(file_path) > last_modified
 
 
 def main():
-    # Load the dataset
-    df = load_data("./data/merged_cleaned.csv")
+    file_path = "./data/merged_cleaned.csv"
+
+    if "df" not in st.session_state or "last_modified" not in st.session_state:
+        st.session_state.df, st.session_state.last_modified = load_data(file_path)
+
+    # Check for file updates
+    if check_file_update(file_path, st.session_state.last_modified):
+        st.cache_data.clear()
+        st.session_state.df, st.session_state.last_modified = load_data(file_path)
+        st.rerun()
+
+    df = st.session_state.df
 
     # Initialize session state variables if they don't exist
     if "current_time_index" not in st.session_state:
@@ -117,3 +133,9 @@ def main():
 
 if __name__ == "__main__":
     main()
+    while True:
+        time.sleep(3)
+        if check_file_update(
+            "./data/merged_cleaned.csv", st.session_state.last_modified
+        ):
+            st.rerun()
