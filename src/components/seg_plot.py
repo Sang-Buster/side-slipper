@@ -123,17 +123,18 @@ def create_seg_plot(df, current_time_index, time_range_seconds):
             )
         )
 
-    # Update title
+    # Update title and layout
     time_range_text = (
         f"Last {time_range_seconds} Seconds" if time_range_seconds else "All Data"
     )
     fig.update_layout(
         title={
             "text": f"Vehicle Segmentation Plot ({time_range_text})",
-            "y": 0.01,  # Set the y position to the bottom
-            "x": 0.5,  # Center the title
+            "y": 1,  # Place the title at the very top
+            "x": 0.5,
             "xanchor": "center",
-            "yanchor": "bottom",
+            "yanchor": "top",
+            "pad": {"t": 20},  # Add padding above the title
         },
         xaxis_title="Longitude",
         yaxis=dict(
@@ -142,8 +143,8 @@ def create_seg_plot(df, current_time_index, time_range_seconds):
             title_standoff=5,
             automargin=True,
         ),
-        height=520,
-        margin=dict(l=0, r=0, t=20, b=140),
+        height=560,  # Increase overall height to accommodate title
+        margin=dict(l=0, r=0, t=60, b=120),  # Increase top margin
         legend=dict(orientation="h", yanchor="bottom", y=-0.3, xanchor="center", x=0.5),
     )
 
@@ -234,10 +235,9 @@ def update_seg_plot(fig, df, current_time_index, time_range_seconds):
     fig.update_layout(
         title={
             "text": f"Vehicle Segmentation Plot ({time_range_text})",
-            "y": 0.01,
             "x": 0.5,
             "xanchor": "center",
-            "yanchor": "bottom",
+            "yanchor": "top",
         }
     )
 
