@@ -75,7 +75,7 @@ def create_seg_plot(df, current_time_index, time_range_seconds):
     )
 
     # Plot the three vectors as arrows for each second
-    vector_scale = 0.0001  # Adjust this value to scale the vectors appropriately
+    vector_scale = 0.00001  # Adjust this value to scale the vectors appropriately
 
     for _, row in grouped_data.iterrows():
         # Rover Velocity Vector at CG (vel_cg_XY)
@@ -86,7 +86,7 @@ def create_seg_plot(df, current_time_index, time_range_seconds):
                 row["vel_cg_X"] * vector_scale,
                 row["vel_cg_Y"] * vector_scale,
                 "red",
-                "Rover Velocity at CG",
+                "Rover Velocity",
                 opacity=0.7,
                 showlegend=_
                 == grouped_data.index[0],  # Only show legend for the first arrow
@@ -116,7 +116,7 @@ def create_seg_plot(df, current_time_index, time_range_seconds):
                 row["vel_rear_X"] * vector_scale,
                 row["vel_rear_Y"] * vector_scale,
                 "orange",
-                "Base Velocity at Rear Axle",
+                "Base Velocity",
                 opacity=0.7,
                 showlegend=_
                 == grouped_data.index[0],  # Only show legend for the first arrow
