@@ -10,7 +10,7 @@ This project is a web application built with Streamlit that visualizes vehicle d
 
 ## Setup Instructions
 
-Follow these steps to set up the project environment:
+Follow these steps to set up the project environment after you have cloned this repo:
 
 1. **Create a new conda environment:**
    ```bash
@@ -52,4 +52,4 @@ Follow these steps to set up the project environment:
 
 
 ## Notes
-- Ensure you have `conda` installed (if not, you can install it via [miniforge](https://github.com/conda-forge/miniforge)).
+- Ensure you have `conda` installed (if not, you may install it via [miniforge](https://github.com/conda-forge/miniforge)).
