@@ -5,7 +5,7 @@
 This project is a web application built with Streamlit that visualizes vehicle dynamics, specifically focusing on side slip data. It provides interactive controls and visualizations to help users understand vehicle behavior under various conditions.
 
 <div align="center">
-  <img src="RRADME.assets/banner.png" alt="Vehicle Side Slip Dashboard Banner" width="100%">
+  <img src=".assets/banner.png" alt="Vehicle Side Slip Dashboard Banner" width="100%">
 </div>
 
 ## Setup Instructions
@@ -32,14 +32,9 @@ Follow these steps to set up the project environment after you have cloned this 
    uv pip install -r requirements.txt
    ```
 
-5. **Navigate to the source directory:**
+5. **Run the Streamlit application:**
    ```bash
-   cd src/
-   ```
-
-6. **Run the Streamlit application:**
-   ```bash
-   streamlit run app.py
+   streamlit run src/app.py
    ```
 
 ## Development Instructions

@@ -47,7 +47,7 @@ def check_file_update(file_path, last_modified):
 
 
 def main():
-    file_path = "./data/merged_cleaned.csv"
+    file_path = os.path.join(os.path.dirname(__file__), "data", "merged_cleaned.csv")
 
     if "df" not in st.session_state or "last_modified" not in st.session_state:
         st.session_state.df, st.session_state.last_modified = load_data(file_path)
@@ -141,6 +141,7 @@ if __name__ == "__main__":
     while True:
         time.sleep(3)
         if check_file_update(
-            "./data/merged_cleaned.csv", st.session_state.last_modified
+            os.path.join(os.path.dirname(__file__), "data", "merged_cleaned.csv"),
+            st.session_state.last_modified,
         ):
             st.rerun()
